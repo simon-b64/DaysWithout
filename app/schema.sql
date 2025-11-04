@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS days_withou;
+
+CREATE TABLE days_without (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    start DATE NOT NULL,
+    name TEXT NOT NULL
+);
