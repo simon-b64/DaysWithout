@@ -44,7 +44,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
-            margin-top: 2rem;
+            margin: 2rem 0;
         }
 
         .tracker-card {
@@ -139,6 +139,11 @@
             margin-bottom: 1rem;
         }
 
+        .empty-state-icon img {
+            height: 1.5em;
+            vertical-align: middle;
+        }
+
         .empty-state h3 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
@@ -153,6 +158,11 @@
             .tracker-days {
                 font-size: 2.5rem;
             }
+        }
+
+        .flex-center {
+            display: flex;
+            justify-content: center;
         }
     </style>
 {% endblock %}
@@ -172,12 +182,12 @@
                     <div class="tracker-label">day{% if tracker.days != 1 %}s{% endif %} without</div>
                     <div class="tracker-start">Started: {{ tracker.start }}</div>
                     <div class="tracker-actions">
-                        <form method="POST" action="{{ url_for('reset', id=tracker.id) }}">
+                        <form method="POST" action="{{ url_for('trackers.reset', id=tracker.id) }}">
                             <button type="submit" class="btn btn-reset"
                                     onclick="return confirm('Reset this tracker to day 0?');">🔄 Reset
                             </button>
                         </form>
-                        <form method="POST" action="{{ url_for('delete', id=tracker.id) }}">
+                        <form method="POST" action="{{ url_for('trackers.delete', id=tracker.id) }}">
                             <button type="submit" class="btn btn-delete"
                                     onclick="return confirm('Delete this tracker permanently?');">🗑️ Delete
                             </button>
@@ -189,16 +199,15 @@
     {% else %}
         <div class="empty-state">
             <div class="empty-state-icon">
-                <img src="{{ url_for('static', filename='svg/calendar-svgrepo-com.svg') }}" alt="Calendar Icon"
-                     style="height:1.5em; vertical-align:middle;">
+                <img src="{{ url_for('static', filename='svg/calendar-svgrepo-com.svg') }}" alt="Calendar Icon">
             </div>
             <h3>No Trackers Yet</h3>
             <p>Create your first tracker to start counting your achievements!</p>
         </div>
     {% endif %}
 
-    <div style="text-align: center;">
-        <a href="{{ url_for('create') }}" class="add-tracker-btn">
+    <div class="flex-center">
+        <a href="{{ url_for('trackers.create') }}" class="add-tracker-btn">
             <div>
                 <img src="{{ url_for('static', filename='svg/plus-svgrepo-com.svg') }}" alt="Calendar Icon"
                      style="height:1.5em; vertical-align:middle; margin-right:0.5em;">

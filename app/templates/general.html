@@ -43,6 +43,12 @@
             align-items: center;
         }
 
+        nav img {
+            height: 1.5em;
+            vertical-align: middle;
+            margin-right: 0.5em;
+        }
+
         nav a, nav a:visited, nav a:hover {
             text-decoration: none;
             transition: color 0.3s;
@@ -124,7 +130,8 @@
 <header>
     <nav>
         <h1>
-            <img src="{{ url_for('static', filename='svg/calendar-svgrepo-com.svg') }}" alt="Calendar Icon" style="height:1.5em; vertical-align:middle; margin-right:0.5em;">
+            <img src="{{ url_for('static', filename='svg/calendar-svgrepo-com.svg') }}" alt="Calendar Icon"
+                 class="logo">
             <a href="{{ url_for('index') }}"> Days Without</a>
         </h1>
     </nav>

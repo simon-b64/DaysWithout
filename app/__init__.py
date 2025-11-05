@@ -30,8 +30,5 @@ def create_app(test_config=None):
     from . import trackers
     app.register_blueprint(trackers.bp)
     app.add_url_rule('/', endpoint='index')
-    app.add_url_rule('/reset', endpoint='reset')
-    app.add_url_rule('/delete', endpoint='delete')
-    app.add_url_rule('/create', endpoint='create')
 
     return app
