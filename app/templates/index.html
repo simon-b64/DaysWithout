@@ -3,195 +3,199 @@
 {% block title %}Home{% endblock %}
 
 {% block extra_css %}
-<style>
-    .page-header {
-        text-align: center;
-        margin-bottom: 2rem;
-    }
+    <style>
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
 
-    .page-header h2 {
-        color: #667eea;
-        font-size: 2rem;
-        margin-bottom: 0.5rem;
-    }
+        .page-header h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
 
-    .page-header p {
-        color: #666;
-        font-size: 1.1rem;
-    }
+        .page-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
 
-    .add-tracker-btn {
-        display: inline-block;
-        background-color: #667eea;
-        color: white;
-        padding: 0.75rem 1.5rem;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: 600;
-        transition: background-color 0.3s;
-        margin-bottom: 2rem;
-    }
+        .add-tracker-btn {
+            display: inline-block;
+            background-color: #667eea;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            margin-top: 2rem;
+        }
 
-    .add-tracker-btn:hover {
-        background-color: #5568d3;
-    }
+        .add-tracker-btn:hover {
+            background-color: #5568d3;
+        }
 
-    .trackers-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 1.5rem;
-        margin-top: 2rem;
-    }
-
-    .tracker-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 2rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .tracker-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    .tracker-name {
-        text-align: center;
-        font-size: 1.3rem;
-        font-weight: bolder;
-        margin-bottom: 1rem;
-        word-wrap: break-word;
-        border: 4px dashed white;
-        border-radius: 8px;
-        padding: 0.5rem 0;
-        letter-spacing: 0.2rem;
-    }
-
-    .tracker-days {
-        font-size: 3rem;
-        font-weight: 900;
-        margin: 1rem 0;
-        text-align: center;
-    }
-
-    .tracker-label {
-        text-align: center;
-        font-size: 1rem;
-        opacity: 0.9;
-        margin-bottom: 0.5rem;
-    }
-
-    .tracker-start {
-        text-align: center;
-        font-size: 0.9rem;
-        opacity: 0.8;
-        margin-bottom: 1rem;
-    }
-
-    .tracker-actions {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 1rem;
-    }
-
-    .btn {
-        flex: 1;
-        padding: 0.5rem;
-        border: none;
-        border-radius: 6px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: opacity 0.3s;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-    }
-
-    .btn:hover {
-        opacity: 0.8;
-    }
-
-    .btn-reset {
-        background-color: #ffd700;
-        color: #333;
-    }
-
-    .btn-delete {
-        background-color: rgba(255, 255, 255, 0.2);
-        color: white;
-        border: 1px solid white;
-    }
-
-    .empty-state {
-        text-align: center;
-        padding: 3rem;
-        color: #666;
-    }
-
-    .empty-state-icon {
-        font-size: 4rem;
-        margin-bottom: 1rem;
-    }
-
-    .empty-state h3 {
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
-        color: #333;
-    }
-
-    .empty-state p {
-        margin-bottom: 2rem;
-    }
-
-    @media (max-width: 768px) {
         .trackers-grid {
-            grid-template-columns: 1fr;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tracker-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .tracker-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .tracker-name {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bolder;
+            margin-bottom: 1rem;
+            word-wrap: break-word;
+            border: 4px dashed white;
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            letter-spacing: 0.2rem;
         }
 
         .tracker-days {
-            font-size: 2.5rem;
+            font-size: 3rem;
+            font-weight: 900;
+            margin: 1rem 0;
+            text-align: center;
         }
-    }
-</style>
+
+        .tracker-label {
+            text-align: center;
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .tracker-start {
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        .tracker-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        .btn-reset {
+            background-color: #ffd700;
+            color: #333;
+        }
+
+        .btn-delete {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .empty-state p {
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .trackers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tracker-days {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-<div class="page-header">
-    <h2>Your Trackers</h2>
-    <p>Track your progress and celebrate your achievements!</p>
-</div>
+    <div class="page-header">
+        <h2>Your Trackers</h2>
+        <p>Track your progress and celebrate your achievements!</p>
+    </div>
 
-<div style="text-align: center;">
-    <a href="{{ url_for('create') }}" class="add-tracker-btn">➕ Create New Tracker</a>
-</div>
-
-{% if trackers %}
-    <div class="trackers-grid">
-        {% for tracker in trackers %}
-        <div class="tracker-card">
-            <div class="tracker-name">{{ tracker.name }}</div>
-            <div class="tracker-days">{{ tracker.days }}</div>
-            <div class="tracker-label">day{% if tracker.days != 1 %}s{% endif %} without</div>
-            <div class="tracker-start">Started: {{ tracker.start }}</div>
-            <div class="tracker-actions">
-                <form method="POST" action="{{ url_for('reset', id=tracker.id) }}">
-                    <button type="submit" class="btn btn-reset" onclick="return confirm('Reset this tracker to day 0?');">🔄 Reset</button>
-                </form>
-                <form method="POST" action="{{ url_for('delete', id=tracker.id) }}">
-                    <button type="submit" class="btn btn-delete" onclick="return confirm('Delete this tracker permanently?');">🗑️ Delete</button>
-                </form>
-            </div>
+    {% if trackers %}
+        <div class="trackers-grid">
+            {% for tracker in trackers %}
+                <div class="tracker-card">
+                    <div class="tracker-name">{{ tracker.name }}</div>
+                    <div class="tracker-days">{{ tracker.days }}</div>
+                    <div class="tracker-label">day{% if tracker.days != 1 %}s{% endif %} without</div>
+                    <div class="tracker-start">Started: {{ tracker.start }}</div>
+                    <div class="tracker-actions">
+                        <form method="POST" action="{{ url_for('reset', id=tracker.id) }}">
+                            <button type="submit" class="btn btn-reset"
+                                    onclick="return confirm('Reset this tracker to day 0?');">🔄 Reset
+                            </button>
+                        </form>
+                        <form method="POST" action="{{ url_for('delete', id=tracker.id) }}">
+                            <button type="submit" class="btn btn-delete"
+                                    onclick="return confirm('Delete this tracker permanently?');">🗑️ Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-state-icon">📅</div>
+            <h3>No Trackers Yet</h3>
+            <p>Create your first tracker to start counting your achievements!</p>
+        </div>
+    {% endif %}
+
+    <div style="text-align: center;">
+        <a href="{{ url_for('create') }}" class="add-tracker-btn">➕ Create New Tracker</a>
     </div>
-{% else %}
-    <div class="empty-state">
-        <div class="empty-state-icon">📅</div>
-        <h3>No Trackers Yet</h3>
-        <p>Create your first tracker to start counting your achievements!</p>
-    </div>
-{% endif %}
 {% endblock %}
 

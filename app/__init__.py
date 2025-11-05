@@ -39,9 +39,7 @@ def create_app(test_config=None):
     @app.route('/')
     def index():
         database = db.get_db()
-        trackers = database.execute(
-            'SELECT id, name, start FROM days_without ORDER BY id DESC'
-        ).fetchall()
+        trackers = database.execute('SELECT id, name, start FROM days_without ORDER BY id DESC').fetchall()
 
         # Convert to list of dicts with calculated days
         tracker_list = []
@@ -77,10 +75,7 @@ def create_app(test_config=None):
 
             if error is None:
                 database = db.get_db()
-                database.execute(
-                    'INSERT INTO days_without (name, start) VALUES (?, ?)',
-                    (name, start)
-                )
+                database.execute('INSERT INTO days_without (name, start) VALUES (?, ?)', (name, start))
                 database.commit()
                 flash('Tracker created successfully!', 'success')
                 return redirect(url_for('index'))
@@ -92,19 +87,13 @@ def create_app(test_config=None):
     @app.post('/reset/<int:id>')
     def reset(id):
         database = db.get_db()
-        tracker = database.execute(
-            'SELECT id, name, start FROM days_without WHERE id = ?',
-            (id,)
-        ).fetchone()
+        tracker = database.execute('SELECT id, name, start FROM days_without WHERE id = ?', (id,)).fetchone()
 
         if tracker is None:
             flash('Tracker not found.', 'error')
             return redirect(url_for('index'))
 
-        database.execute(
-            'UPDATE days_without SET start = ? WHERE id = ?',
-            (date.today().isoformat(), id)
-        )
+        database.execute('UPDATE days_without SET start = ? WHERE id = ?', (date.today().isoformat(), id))
         database.commit()
         flash(f'Tracker "{tracker["name"]}" has been reset!', 'success')
         return redirect(url_for('index'))
@@ -112,10 +101,7 @@ def create_app(test_config=None):
     @app.post('/delete/<int:id>')
     def delete(id):
         database = db.get_db()
-        tracker = database.execute(
-            'SELECT id, name, start FROM days_without WHERE id = ?',
-            (id,)
-        ).fetchone()
+        tracker = database.execute('SELECT id, name, start FROM days_without WHERE id = ?', (id,)).fetchone()
 
         if tracker is None:
             flash('Tracker not found.', 'error')

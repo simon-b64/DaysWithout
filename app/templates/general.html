@@ -118,33 +118,33 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <header>
-        <nav>
-            <h1><a href="{{ url_for('index') }}">📅 Days Without</a></h1>
-        </nav>
-    </header>
+<header>
+    <nav>
+        <h1><a href="{{ url_for('index') }}">📅 Days Without</a></h1>
+    </nav>
+</header>
 
-    <main>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <div class="flash-messages">
-                    {% for category, message in messages %}
-                        <div class="flash {{ category }}">{{ message }}</div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
+<main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
 
-        <div class="container">
-            {% block content %}{% endblock %}
-        </div>
-    </main>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</main>
 
-    <footer>
-        <p>&copy; 2025 Days Without Tracker. Keep counting!</p>
-    </footer>
+<footer>
+    <p>&copy; 2025 Days Without Tracker. Keep counting!</p>
+</footer>
 
-    {% block extra_js %}{% endblock %}
+{% block extra_js %}{% endblock %}
 </body>
 </html>
 
