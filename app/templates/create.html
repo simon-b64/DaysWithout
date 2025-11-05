@@ -159,8 +159,16 @@
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary">✅ Create Tracker</button>
-                <a href="{{ url_for('index') }}" class="btn btn-secondary">❌ Cancel</a>
+                <button type="submit" class="btn btn-primary">
+                    <img src="{{ url_for('static', filename='svg/plus-svgrepo-com.svg') }}" alt="Plus Icon"
+                         style="height:1.5em; vertical-align:middle; margin-right:0.5em;">
+                    Create Tracker
+                </button>
+                <a href="{{ url_for('index') }}" class="btn btn-secondary">
+                    <img src="{{ url_for('static', filename='svg/cross-mark-svgrepo-com.svg') }}" alt="Plus Icon"
+                         style="height:1.5em; vertical-align:middle; margin-right:0.5em;">
+                    Cancel
+                </a>
             </div>
         </form>
     </div>

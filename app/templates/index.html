@@ -6,7 +6,6 @@
     <style>
         .page-header {
             text-align: center;
-            margin-bottom: 2rem;
         }
 
         .page-header h2 {
@@ -29,7 +28,12 @@
             text-decoration: none;
             font-weight: 600;
             transition: background-color 0.3s;
-            margin-top: 2rem;
+        }
+
+        .add-tracker-btn div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .add-tracker-btn:hover {
@@ -141,10 +145,6 @@
             color: #333;
         }
 
-        .empty-state p {
-            margin-bottom: 2rem;
-        }
-
         @media (max-width: 768px) {
             .trackers-grid {
                 grid-template-columns: 1fr;
@@ -188,14 +188,23 @@
         </div>
     {% else %}
         <div class="empty-state">
-            <div class="empty-state-icon">📅</div>
+            <div class="empty-state-icon">
+                <img src="{{ url_for('static', filename='svg/calendar-svgrepo-com.svg') }}" alt="Calendar Icon"
+                     style="height:1.5em; vertical-align:middle;">
+            </div>
             <h3>No Trackers Yet</h3>
             <p>Create your first tracker to start counting your achievements!</p>
         </div>
     {% endif %}
 
     <div style="text-align: center;">
-        <a href="{{ url_for('create') }}" class="add-tracker-btn">➕ Create New Tracker</a>
+        <a href="{{ url_for('create') }}" class="add-tracker-btn">
+            <div>
+                <img src="{{ url_for('static', filename='svg/plus-svgrepo-com.svg') }}" alt="Calendar Icon"
+                     style="height:1.5em; vertical-align:middle; margin-right:0.5em;">
+                Create New Tracker
+            </div>
+        </a>
     </div>
 {% endblock %}
 

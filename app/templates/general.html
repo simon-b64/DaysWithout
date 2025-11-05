@@ -38,6 +38,9 @@
             color: #667eea;
             font-size: 1.5rem;
             font-weight: 700;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         nav a, nav a:visited, nav a:hover {
@@ -120,7 +123,10 @@
 <body>
 <header>
     <nav>
-        <h1><a href="{{ url_for('index') }}">📅 Days Without</a></h1>
+        <h1>
+            <img src="{{ url_for('static', filename='svg/calendar-svgrepo-com.svg') }}" alt="Calendar Icon" style="height:1.5em; vertical-align:middle; margin-right:0.5em;">
+            <a href="{{ url_for('index') }}"> Days Without</a>
+        </h1>
     </nav>
 </header>
 
