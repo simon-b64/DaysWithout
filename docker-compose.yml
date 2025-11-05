@@ -1,0 +1,15 @@
+services:
+  web:
+    image: ghcr.io/simon-b64/days-without:latest
+    ports:
+      - "5000:5000"
+    volumes:
+      # Persist the database
+      - days-without-data:/app/instance
+      # Mount config file (optional - uncomment if you want to use a custom config)
+      # - ./instance/config.py:/app/instance/config.py:ro
+    restart: unless-stopped
+
+volumes:
+  days-without-data:
+    driver: local

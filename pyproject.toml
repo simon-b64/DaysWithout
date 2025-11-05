@@ -1,0 +1,11 @@
+[project]
+name = "Days Without"
+version = "1.0.0"
+description = "A simple web app to track days without something..."
+dependencies = [
+    "flask",
+]
+
+[build-system]
+requires = ["flit_core<4"]
+build-backend = "flit_core.buildapi"

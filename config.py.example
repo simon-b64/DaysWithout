@@ -1,0 +1,16 @@
+# Example production configuration file
+# Place this in the instance/ directory
+
+# IMPORTANT: Generate a strong secret key for production!
+# You can generate one with: python -c 'import secrets; print(secrets.token_hex())'
+SECRET_KEY = 'your-secret-key-here-change-this-in-production'
+
+# Database path (this is already set in __init__.py, but you can override it here)
+# DATABASE = '/app/instance/days_without.sqlite'
+
+# Flask settings
+# DEBUG = False  # Should be False in production
+# TESTING = False
+
+# Add any other custom configuration here
+
