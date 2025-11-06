@@ -1,10 +1,12 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, g, redirect, render_template, request, url_for, g
 )
-from app import db
+from app.db import get_db
 from datetime import datetime, date
+from app.auth import login_required
 
 bp = Blueprint('trackers', __name__)
+
 
 # Helper function to calculate days between dates
 def calculate_days(start_date):
@@ -16,9 +18,13 @@ def calculate_days(start_date):
 
 
 @bp.route('/')
+@login_required
 def index():
-    database = db.get_db()
-    trackers = database.execute('SELECT id, name, start FROM days_without ORDER BY id DESC').fetchall()
+    database = get_db()
+    trackers = database.execute(
+        'SELECT id, name, start FROM days_without WHERE user_id = ? ORDER BY start DESC',
+        (g.user['id'],)
+    ).fetchall()
 
     # Convert to list of dicts with calculated days
     tracker_list = []
@@ -32,7 +38,9 @@ def index():
 
     return render_template('index.html', trackers=tracker_list)
 
+
 @bp.route('/create', methods=('GET', 'POST'))
+@login_required
 def create():
     if request.method == 'POST':
         name = request.form.get('name')
@@ -53,8 +61,11 @@ def create():
                 error = 'Invalid date format.'
 
         if error is None:
-            database = db.get_db()
-            database.execute('INSERT INTO days_without (name, start) VALUES (?, ?)', (name, start))
+            database = get_db()
+            database.execute(
+                'INSERT INTO days_without (name, start, user_id) VALUES (?, ?, ?)',
+                (name, start, g.user['id'])
+            )
             database.commit()
             flash('Tracker created successfully!', 'success')
             return redirect(url_for('index'))
@@ -63,10 +74,12 @@ def create():
 
     return render_template('create.html', today=date.today().isoformat(), error=request.args.get('error'))
 
+
 @bp.post('/reset/<int:id>')
+@login_required
 def reset(id):
-    database = db.get_db()
-    tracker = database.execute('SELECT id, name, start FROM days_without WHERE id = ?', (id,)).fetchone()
+    database = get_db()
+    tracker = database.execute('SELECT * FROM days_without WHERE id = ? AND user_id = ?', (id, g.user['id'])).fetchone()
 
     if tracker is None:
         flash('Tracker not found.', 'error')
@@ -77,10 +90,15 @@ def reset(id):
     flash(f'Tracker "{tracker["name"]}" has been reset!', 'success')
     return redirect(url_for('index'))
 
+
 @bp.post('/delete/<int:id>')
+@login_required
 def delete(id):
-    database = db.get_db()
-    tracker = database.execute('SELECT id, name, start FROM days_without WHERE id = ?', (id,)).fetchone()
+    database = get_db()
+    tracker = database.execute(
+        'SELECT id, name, start FROM days_without WHERE id = ? AND user_id = ?',
+        (id, g.user['id'])
+    ).fetchone()
 
     if tracker is None:
         flash('Tracker not found.', 'error')

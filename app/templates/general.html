@@ -54,6 +54,32 @@
             transition: color 0.3s;
         }
 
+        nav .auth-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        nav .auth-section span {
+            color: #333;
+            font-weight: 500;
+        }
+
+        nav .auth-section a {
+            background-color: #667eea;
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        nav .auth-section a:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+
         main {
             flex: 1;
             max-width: 1200px;
@@ -134,18 +160,28 @@
                  class="logo">
             <a href="{{ url_for('index') }}"> Days Without</a>
         </h1>
+        {% if not ANONYMOUS %}
+        <div class="auth-section">
+            {% if g.user %}
+            <span>Welcome, {{ g.user.username }}!</span>
+            <a href="{{ url_for('auth.logout') }}">Logout</a>
+            {% else %}
+            <a href="{{ url_for('auth.login') }}">Login</a>
+            {% endif %}
+        </div>
+        {% endif %}
     </nav>
 </header>
 
 <main>
     {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div class="flash-messages">
-                {% for category, message in messages %}
-                    <div class="flash {{ category }}">{{ message }}</div>
-                {% endfor %}
-            </div>
-        {% endif %}
+    {% if messages %}
+    <div class="flash-messages">
+        {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
     {% endwith %}
 
     <div class="container">

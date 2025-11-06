@@ -1,3 +1,4 @@
+import os
 import sqlite3
 import click
 from datetime import datetime
@@ -23,9 +24,30 @@ def close_db(e=None):
 def init_db():
     db = get_db()
 
-    with current_app.open_resource('schema.sql') as f:
-        db.executescript(f.read().decode('utf8'))
+    exists = db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='database_version'").fetchone()
+    if exists is None:
+        print("No version table found, creating.")
+        with current_app.open_resource(os.path.normcase('db/create-version-table.sql')) as f:
+            db.executescript(f.read().decode('utf8'))
 
+    database_version = db.execute("SELECT version FROM database_version").fetchone()['version']
+    print(f'Current database version: {database_version}')
+    while True:
+        next_version = database_version + 1
+        migration_filename = os.path.normcase(current_app.root_path) + os.path.normcase(f'/db/migrations/{next_version}.sql')
+        print("Looking for migration file:", migration_filename)
+        if not os.path.exists(os.path.normcase(migration_filename)):
+            break
+
+        print("Applying migration:", migration_filename)
+        with current_app.open_resource(migration_filename) as f:
+            db.executescript(f.read().decode('utf8'))
+        db.execute(
+            "UPDATE database_version SET version = ?",
+            (next_version,)
+        )
+        db.commit()
+        database_version = next_version
 
 @click.command('init-db')
 def init_db_command():
