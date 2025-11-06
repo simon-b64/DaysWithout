@@ -23,9 +23,11 @@
 - **🔄 Easy Reset** - Reset your counter when needed with a single click
 - **🗑️ Tracker Management** - Delete trackers you no longer need
 - **📅 Custom Start Dates** - Backdate your tracker to any past date
+- **🔐 Optional Authentication** - Toggle user login system on/off based on your needs
 - **📱 Responsive Design** - Works seamlessly on desktop, tablet, and mobile devices
 - **🎨 Modern UI** - Clean, intuitive interface with smooth animations
 - **💾 Persistent Storage** - SQLite database ensures your data is never lost
+- **🔄 Database Migrations** - Built-in migration system keeps your database up-to-date
 
 ## 📸 Screenshots
 
@@ -140,6 +142,8 @@ pip install -r requirements.txt
 flask --app app init-db
 ```
 
+> **Note:** You can run `init-db` again at any time to update the database schema and apply migrations. The command is idempotent and will preserve your existing data while updating the structure.
+
 5. **Run the development server:**
 
 ```bash
@@ -211,13 +215,65 @@ pip install -r requirements.txt
 
 Days Without uses sensible defaults and requires minimal configuration. The database is automatically created in the `instance/` directory on first run.
 
-For advanced configuration, you can create an `instance/config.py` file:
+### Authentication Mode
+
+By default, Days Without runs in **anonymous mode** (no login required). You can toggle authentication on/off using the `ANONYMOUS` configuration setting.
+
+#### Anonymous Mode (Default)
+When `ANONYMOUS=True`, the app runs without authentication:
+- No login/registration required
+- All trackers are accessible to everyone
+- Perfect for personal/single-user deployments
+
+#### Multi-User Mode
+When `ANONYMOUS=False`, the app requires user authentication:
+- Users must register and login
+- Each user has their own private trackers
+- Secure authentication with password hashing
+- Ideal for shared/family deployments
+
+### Configuration File
+
+Create an `instance/config.py` file to customize settings:
 
 ```python
-# Example configuration (optional)
+# Toggle authentication (True = no login required, False = login required)
+ANONYMOUS = False  # Set to True for anonymous mode
+
+# Secret key for session management (change this in production!)
 SECRET_KEY = 'your-secret-key-here'
+
+# Custom database path (optional)
 DATABASE = '/path/to/custom/database.db'
 ```
+
+### Database Migrations
+
+The app includes a built-in migration system. To update your database schema:
+
+**For local development:**
+
+```bash
+flask --app app init-db
+```
+
+**For Docker deployments:**
+
+```bash
+# If using Docker Compose
+docker-compose exec web flask --app app init-db
+
+# If using Docker CLI
+docker exec -it days-without flask --app app init-db
+```
+
+This command will:
+- Create the database if it doesn't exist
+- Apply all pending migrations automatically
+- Preserve your existing data
+- Update the database schema to the latest version
+
+You can safely run this command multiple times - it's idempotent and won't duplicate data or break your existing trackers.
 
 ## 📜 License
 
