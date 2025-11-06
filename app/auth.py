@@ -1,6 +1,6 @@
 import functools
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for, session
+    Blueprint, flash, g, redirect, render_template, request, url_for, session, current_app
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -9,7 +9,28 @@ from app import db
 bp = Blueprint('auth', __name__)
 
 
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+        return view(**kwargs)
+
+    return wrapped_view
+
+
+def anonymous_disabled(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if current_app.config['ANONYMOUS']:
+            return redirect(url_for('index'))
+        return view(**kwargs)
+
+    return wrapped_view
+
+
 @bp.route('/login', methods=('GET', 'POST'))
+@anonymous_disabled
 def login():
     if request.method == 'POST':
         username = request.form['username']
@@ -38,6 +59,7 @@ def login():
 
 
 @bp.route('/register', methods=('GET', 'POST'))
+@anonymous_disabled
 def register():
     if request.method == 'POST':
         username = request.form['username']
@@ -72,7 +94,8 @@ def register():
     return render_template("auth/register.html")
 
 
-@bp.post('/logout')
+@bp.route('/logout')
+@anonymous_disabled
 def logout():
     session.clear()
     return redirect(url_for('auth.login'))
@@ -82,19 +105,13 @@ def logout():
 def load_logged_in_user():
     user_id = session.get('user_id')
 
+    if current_app.config['ANONYMOUS']:
+        g.user = {'id': 1, 'username': 'Anonymous'}
+        return
+
     if user_id is None:
         g.user = None
     else:
         g.user = db.get_db().execute(
             'SELECT * FROM users WHERE id = ?', (user_id,)
         ).fetchone()
-
-def login_required(view):
-    @functools.wraps(view)
-    def wrapped_view(**kwargs):
-        if g.user is None:
-            return redirect(url_for('auth.login'))
-
-        return view(**kwargs)
-
-    return wrapped_view

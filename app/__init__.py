@@ -35,4 +35,8 @@ def create_app(test_config=None):
     app.register_blueprint(trackers.bp)
     app.add_url_rule('/', endpoint='index')
 
+    @app.context_processor
+    def inject_anonymous():
+        return dict(ANONYMOUS=app.config.get('ANONYMOUS', False))
+
     return app
