@@ -49,7 +49,7 @@ services:
   web:
     image: ghcr.io/simon-b64/days-without:latest
     ports:
-      - "5000:5000"
+      - "8000:8000"
     volumes:
       - days-without-data:/app/instance
     restart: unless-stopped
@@ -67,7 +67,7 @@ docker-compose up -d
 
 3. **Access the app:**
 
-Open your browser and navigate to `http://localhost:5000`
+Open your browser and navigate to `http://localhost:8000`
 
 ### Using Docker CLI
 
@@ -80,7 +80,7 @@ docker pull ghcr.io/simon-b64/days-without:latest
 # Run the container
 docker run -d \
   --name days-without \
-  -p 5000:5000 \
+  -p 8000:8000 \
   -v days-without-data:/app/instance \
   --restart unless-stopped \
   ghcr.io/simon-b64/days-without:latest
@@ -101,7 +101,7 @@ docker build -t days-without:local .
 # Run the container
 docker run -d \
   --name days-without \
-  -p 5000:5000 \
+  -p 8000:8000 \
   -v days-without-data:/app/instance \
   --restart unless-stopped \
   days-without:local

@@ -2,7 +2,7 @@ services:
   web:
     image: ghcr.io/simon-b64/days-without:latest
     ports:
-      - "5000:5000"
+      - "8000:8000"
     volumes:
       # Persist the database
       - days-without-data:/app/instance

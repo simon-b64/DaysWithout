@@ -40,3 +40,5 @@ def create_app(test_config=None):
         return dict(ANONYMOUS=app.config.get('ANONYMOUS', False))
 
     return app
+
+app = create_app()

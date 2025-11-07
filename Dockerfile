@@ -17,20 +17,12 @@ COPY pyproject.toml .
 # Create instance directory for the SQLite database
 RUN mkdir -p /app/instance
 
-# Copy config file if it exists (optional)
-# Uncomment the next line if you have an instance/config.py file
-# COPY instance/config.py ./instance/config.py
-
-# Set environment variables
-ENV FLASK_APP=app
-ENV FLASK_ENV=production
-
 # Initialize the database
 RUN flask --app app init-db
 
 # Expose port 5000
-EXPOSE 5000
+EXPOSE 8000
 
 # Run the application
-CMD ["flask", "--app", "app", "run", "--host=0.0.0.0"]
+CMD ["gunicorn", "--bind=0.0.0.0:8000", "--workers=4", "app:app"]
 
